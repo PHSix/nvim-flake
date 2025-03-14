@@ -7,7 +7,7 @@ let
   coc = pkgs.cocPlugins;
   vimPlugins = pkgs.vimPlugins;
   nvimPlugins = pkgs.nvimPlugins;
-  plugins = coc // vimPlugins // nvimPlugins;
+  plugins = vimPlugins // coc // nvimPlugins;
   mkLuaModuleConfig = mod:
     let
       content =
@@ -139,7 +139,7 @@ in
           config = true;
         }
         {
-          pkg = plugins.hlsearch-nvim;
+          pkg = hlsearch-nvim;
           config = true;
         }
 
@@ -187,9 +187,10 @@ in
             coc-lists
             coc-snippets
             coc-explorer
-            coc.coc-eslint-tools
-            coc.coc-tsserver
-            coc.coc-sumneko-lua
+            coc-eslint-tools
+            coc-tsserver
+            coc-sumneko-lua
+            coc-stylua
           ];
         }
 
