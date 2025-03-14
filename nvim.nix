@@ -193,6 +193,10 @@ in
             coc-stylua
           ];
         }
+        {
+          pkg = nvim-bqf;
+          config = mkLuaModuleConfig "bqf";
+        }
 
         {
           pkg = codecompanion-nvim;
