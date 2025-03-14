@@ -191,6 +191,7 @@ in
             coc-tsserver
             coc-sumneko-lua
             coc-stylua
+            coc-rust-analyzer
           ];
         }
         {
