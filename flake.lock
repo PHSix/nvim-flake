@@ -6,11 +6,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1741909181,
-        "narHash": "sha256-ph48h60NHctpkjmNt26Eisf0WRqmKgGxW3FlevDGM8A=",
+        "lastModified": 1741960367,
+        "narHash": "sha256-CZmyn4LGD1WrpPTeEwsbs/WO+jFmiXmj75WNuP+gfUU=",
         "owner": "PHSix",
         "repo": "coc-nvim-overlay",
-        "rev": "9c54065d914c2ead5adb719d33558849384e5c2e",
+        "rev": "8de308354ea2bc8e7ddfa76624a7f62664bf3f04",
         "type": "github"
       },
       "original": {
@@ -305,11 +305,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1741379970,
-        "narHash": "sha256-Wh7esNh7G24qYleLvgOSY/7HlDUzWaL/n4qzlBePpiw=",
+        "lastModified": 1741851582,
+        "narHash": "sha256-cPfs8qMccim2RBgtKGF+x9IBCduRvd/N5F4nYpU0TVE=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "36fd87baa9083f34f7f5027900b62ee6d09b1f2f",
+        "rev": "6607cf789e541e7873d40d3a8f7815ea92204f32",
         "type": "github"
       },
       "original": {
