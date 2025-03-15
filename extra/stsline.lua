@@ -204,6 +204,15 @@ local function setup()
 
 	_G.StslineRender = render_callback
 
+	vim.api.nvim_create_autocmd({
+		"User",
+	}, {
+		pattern = "CocStatusChange",
+		callback = function()
+			vim.o.statusline = "%!v:lua.StslineRender()"
+		end,
+	})
+
 	vim.o.statusline = "%!v:lua.StslineRender()"
 end
 
