@@ -6,11 +6,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1741960367,
-        "narHash": "sha256-CZmyn4LGD1WrpPTeEwsbs/WO+jFmiXmj75WNuP+gfUU=",
+        "lastModified": 1741996951,
+        "narHash": "sha256-UFo3ZsCEhCkuWdLmWf9Cxe+vkHNXt7CAa4Q3Fj8vdA0=",
         "owner": "PHSix",
         "repo": "coc-nvim-overlay",
-        "rev": "8de308354ea2bc8e7ddfa76624a7f62664bf3f04",
+        "rev": "9afe2fef7d12c9f74a430367e7ea3874aaeb5f6c",
         "type": "github"
       },
       "original": {
