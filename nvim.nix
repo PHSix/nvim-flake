@@ -1,6 +1,5 @@
 { pkgs
 , helpers
-, inputs
 , ...
 }:
 let
@@ -100,7 +99,7 @@ in
 
   globals = {
     mapleader = " ";
-    coc_user_config = builtins.fromJSON (builtins.readFile ./extra/coc-settings.json);
+    coc_user_config = ./extra/coc-settings.json |> builtins.readFile |> builtins.fromJSON;
   };
 
   plugins.lazy = {
@@ -248,7 +247,12 @@ in
         }
         {
           pkg = vitesse-nvim;
+          enabled = false;
           config = fn "vim.cmd [[colorscheme vitesse]]";
+        }
+        {
+          pkg = catppuccin-nvim;
+          config = fn "vim.cmd.colorscheme 'catppuccin'";
         }
         {
           pkg = toggleterm-nvim;

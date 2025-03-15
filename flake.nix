@@ -1,6 +1,10 @@
 {
   description = "PH's nvim dstro created by nixvim.";
 
+  nixConfig = {
+    extra-experimental-features = "pipe-operators";
+  };
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
