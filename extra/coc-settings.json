@@ -198,6 +198,7 @@
     "node_modules/typescript"
   ],
   "typescript.suggestionActions.enabled": false,
+  "tsserver.useLocalTsdk": true,
   "javascript.suggestionActions.enabled": false,
   "Lua.diagnostics.globals": [
     "vim"
