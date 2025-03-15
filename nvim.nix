@@ -17,7 +17,7 @@ let
     end'';
 
   loadModule = mod:
-    "(${mkLuaModuleConfig mod})()";
+    "table.insert(_modules, ${mkLuaModuleConfig mod})";
 
   fn = content: ''
       function ()
@@ -68,7 +68,9 @@ in
   withNodeJs = true;
   extraPackages = with pkgs; [
     lua-language-server
-    nil
+
+    nixd
+    nixfmt
 
     watchman # for coc watch dependence
   ];
@@ -108,17 +110,14 @@ in
       (with plugins; [
         {
           pkg = nvim-spectre;
-          lazy = true;
           cmd = [ "Spectre" ];
         }
         {
           pkg = lazygit-nvim;
-          lazy = true;
           cmd = [ "Lazygit" ];
         }
         {
           pkg = vim-dadbod-ui;
-          lazy = true;
           dependencies = [ vim-dadbod vim-dadbod-completion ];
           cmd = [ "DBUI" ];
         }
@@ -135,6 +134,7 @@ in
         }
         {
           pkg = supermaven-nvim;
+          event = ["InsertEnter"];
           config = true;
         }
         {
@@ -191,6 +191,7 @@ in
             coc-sumneko-lua
             coc-stylua
             coc-rust-analyzer
+            coc-biome
           ];
         }
         {
@@ -221,6 +222,7 @@ in
                   rust
                   yaml
                   ocaml
+                  zig
                 ]
               );
 
@@ -263,16 +265,16 @@ in
           config = true;
         }
 
-      ]) ++ (map (p: { pkg = p; }) (with plugins; [ vim-smoothie vim-surround fcitx-nvim plenary-nvim ]));
+      ]) ++ (with plugins; [ vim-smoothie vim-surround fcitx-nvim plenary-nvim ] |> (map (p: { pkg = p; })));
   };
 
   keymaps =
     let
       map = mode: key: action: options: { inherit mode key action options; };
       nmap = k: a: (map [ "n" ] k a { silent = true; nowait = true; });
-      nmapl = k: a: nmap k ("<CMD>lua ${a}<CR>");
-      nmapc = k: a: nmap k ("<CMD>${a}<CR>");
-      nmapp = k: a: nmap k ("<Plug>(${a})");
+      nmapl = k: a: nmap k "<CMD>lua ${a}<CR>";
+      nmapc = k: a: nmap k "<CMD>${a}<CR>";
+      nmapp = k: a: nmap k "<Plug>(${a})";
 
       vnmap = k: a: (map [ "v" "n" ] k a { silent = true; nowait = true; });
 
@@ -317,5 +319,15 @@ in
     in
     keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
 
-  extraConfigLua = loadModule "stsline";
+  extraConfigLua = ''
+    vim.cmd [[set rtp+=/home/ph/repos/coc-nixd]]
+    local _modules = {}
+
+    ${loadModule "stsline"}
+
+    for _, mod in ipairs(_modules) do
+      mod()
+    end
+    ''
+    ;
 }
