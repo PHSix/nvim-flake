@@ -69,9 +69,6 @@ in
   extraPackages = with pkgs; [
     lua-language-server
 
-    nixd
-    nixfmt
-
     watchman # for coc watch dependence
   ];
 
@@ -114,7 +111,7 @@ in
         }
         {
           pkg = lazygit-nvim;
-          cmd = [ "Lazygit" ];
+          cmd = [ "LazyGit" ];
         }
         {
           pkg = vim-dadbod-ui;
@@ -179,6 +176,9 @@ in
         }
         {
           pkg = coc.coc-nvim;
+          init = fn ''
+            vim.cmd [[set rtp+=/home/ph/repos/coc-ocaml]]
+          '';
           config = mkLuaModuleConfig "coc";
           dependencies = [
             coc-git
@@ -192,6 +192,7 @@ in
             coc-stylua
             coc-rust-analyzer
             coc-biome
+            coc-ocaml
           ];
         }
         {
@@ -315,12 +316,13 @@ in
         (vnmap "<C-k>" "3k")
         (vnmap "<C-h>" "4h")
         (vnmap "<C-l>" "4l")
+
+        (nmapc "<leader>lg" "LazyGit")
       ];
     in
     keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
 
   extraConfigLua = ''
-    vim.cmd [[set rtp+=/home/ph/repos/coc-nixd]]
     local _modules = {}
 
     ${loadModule "stsline"}
