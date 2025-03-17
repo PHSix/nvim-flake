@@ -193,6 +193,7 @@ in
             coc-rust-analyzer
             coc-biome
             coc-ocaml
+            coc-css
           ];
         }
         {
@@ -324,6 +325,14 @@ in
 
   extraConfigLua = ''
     local _modules = {}
+    local cache_dir = vim.env.HOME .. '/.cache/nvim/'
+    local opt = vim.opt
+    opt.directory = cache_dir .. 'swap/'
+    opt.undodir = cache_dir .. 'undo/'
+    opt.backupdir = cache_dir .. 'backup/'
+    opt.viewdir = cache_dir .. 'view/'
+    opt.spellfile = cache_dir .. 'spell/en.uft-8.add'
+
 
     ${loadModule "stsline"}
 
