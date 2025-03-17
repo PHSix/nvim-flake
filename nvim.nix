@@ -67,7 +67,7 @@ in
 
   withNodeJs = true;
   extraPackages = with pkgs; [
-    lua-language-server
+    ocamlPackages.ocamlformat # for coc-ocaml format dependence
 
     watchman # for coc watch dependence
   ];
