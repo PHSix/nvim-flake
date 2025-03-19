@@ -194,6 +194,7 @@ in
             coc-biome
             coc-ocaml
             coc-css
+            coc-nix
           ];
         }
         {
@@ -324,6 +325,7 @@ in
     keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
 
   extraConfigLua = ''
+    vim.cmd [[set rtp+=/home/ph/repos/coc-nix]]
     local _modules = {}
     local cache_dir = vim.env.HOME .. '/.cache/nvim/'
     local opt = vim.opt

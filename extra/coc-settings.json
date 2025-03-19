@@ -202,5 +202,8 @@
   "javascript.suggestionActions.enabled": false,
   "Lua.diagnostics.globals": [
     "vim"
+  ],
+  "nixd.formattingCommand": [
+    "nixfmt"
   ]
 }
