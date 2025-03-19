@@ -31,7 +31,7 @@
             )
             cocPluginNames);
         };
-        nvimPluginsOverlay = import ./plugins;
+        nvimPluginsOverlay = import ./nvimPlugins;
         pkgs = import nixpkgs {
           inherit system;
           overlays = [
