@@ -226,6 +226,7 @@ in
                   yaml
                   ocaml
                   zig
+                  vue
                 ]
               );
 
