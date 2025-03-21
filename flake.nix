@@ -15,22 +15,10 @@
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
+  outputs = inputs@{ nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        cocPluginFiles = builtins.attrNames (builtins.readDir ./cocPlugins);
-        cocPluginNames = builtins.filter (name: builtins.match ".*\.nix" name != null) cocPluginFiles;
-
-        cocPluginsOverlay = final: prev: {
-          cocPlugins = builtins.listToAttrs (map
-            (name:
-              {
-                name = builtins.replaceStrings [ ".nix" ] [ "" ] name;
-                value = prev.callPackage (./. + "/cocPlugins/${name}") { };
-              }
-            )
-            cocPluginNames);
-        };
+        cocPluginsOverlay = import ./cocPlugins;
         nvimPluginsOverlay = import ./nvimPlugins;
         pkgs = import nixpkgs {
           inherit system;
@@ -54,6 +42,9 @@
         packages = {
           default = nvim;
           nvim = nvim;
+          neovim = nvim;
+          cocPlugins = pkgs.cocPlugins;
+          nvimPlugins = pkgs.nvimPlugins;
         };
       }
     );

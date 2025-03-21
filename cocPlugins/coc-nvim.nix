@@ -1,12 +1,12 @@
 {pkgs, fetchFromGitHub, ...}: 
 pkgs.vimUtils.buildVimPlugin {
   pname = "coc.nvim";
-  version = "2025-03-07";
+  version = "2025-03-21";
   src = fetchFromGitHub {
     owner = "neoclide";
     repo = "coc.nvim";
-    rev = "373623b1fe26f9f1955d7b307f635b13ec1d7093";
-    hash = "sha256-eNSPXwlBVAyCxSWaUjfVHo6naZjHTDbOfr3hcsfSu8Q=";
+    rev = "da20bea23b6226e5859a06137b841c6853599f22";
+    hash = "sha256-O7tmZgSQeYao5T0FZ+Zeu6bCLgXEdA2M77JjfR812T4=";
   };
   meta.homepage = "https://github.com/neoclide/coc.nvim/";
 }
