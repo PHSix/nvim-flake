@@ -176,9 +176,6 @@ in
         }
         {
           pkg = coc.coc-nvim;
-          init = fn ''
-            vim.cmd [[set rtp+=/home/ph/repos/coc-ocaml]]
-          '';
           config = mkLuaModuleConfig "coc";
           dependencies = [
             coc-git
@@ -326,7 +323,6 @@ in
     keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
 
   extraConfigLua = ''
-    vim.cmd [[set rtp+=/home/ph/repos/coc-nix]]
     local _modules = {}
     local cache_dir = vim.env.HOME .. '/.cache/nvim/'
     local opt = vim.opt

@@ -82,6 +82,13 @@ api.nvim_create_autocmd("filetype", {
 		vim.keymap.set("n", "=", resize_handler(5), { buffer = true })
 	end,
 })
+api.nvim_create_autocmd("User", {
+	group = "coc_patch_autocmd",
+	pattern = "CocStatusChange",
+	callback = function()
+		vim.cmd.redrawstatus()
+	end,
+})
 api.nvim_create_user_command("CocExplorer", function()
 	cmd(string.format([[CocCommand explorer --position right --width %d]], explorer_size))
 end, {
@@ -95,3 +102,5 @@ vim.keymap.set("n", "K", function()
 		fn.feedkeys("K", "in")
 	end
 end, { silent = true })
+
+vim.cmd([[]])
