@@ -307,6 +307,8 @@ in
         (nmapp "gk" "coc-git-prevchunk")
         (nmapp "gj" "coc-git-nextchunk")
         (nmapp "<leader>gp" "coc-git-chunkinfo")
+
+        (nmapc "<leader>gb" "GitBlameDoc")
       ];
 
       keys = [

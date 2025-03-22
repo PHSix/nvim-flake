@@ -47,6 +47,12 @@ end, {
 	desc = "coc lsp format with async",
 })
 
+api.nvim_create_user_command("GitBlameDoc", function()
+	vim.cmd([[CocCommand git.showBlameDoc]])
+end, {
+	desc = "open git blame doc",
+})
+
 api.nvim_create_user_command("CocMarketplace", function()
 	vim.cmd([[CocList marketplace]])
 end, {

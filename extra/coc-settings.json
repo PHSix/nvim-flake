@@ -151,7 +151,7 @@
   "git.removedSign.text": "│",
   "git.changeRemovedSign.text": "│",
   "git.topRemovedSign.text": "│",
-  "git.addGBlameToVirtualText": true,
+  "git.addGBlameToVirtualText": false,
   "[markdown]": {
     "coc.preferences.formatOnSave": false
   },
