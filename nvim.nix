@@ -1,23 +1,24 @@
-{ pkgs
-, helpers
-, ...
+{
+  pkgs,
+  helpers,
+  ...
 }:
 let
   coc = pkgs.cocPlugins;
   vimPlugins = pkgs.vimPlugins;
   nvimPlugins = pkgs.nvimPlugins;
   plugins = vimPlugins // coc // nvimPlugins;
-  mkLuaModuleConfig = mod:
+  mkLuaModuleConfig =
+    mod:
     let
-      content =
-        (builtins.readFile (./extra + "/${mod}.lua"));
+      content = (builtins.readFile (./extra + "/${mod}.lua"));
     in
-    ''function()
-      ${content}
-    end'';
+    ''
+      function()
+            ${content}
+          end'';
 
-  loadModule = mod:
-    "table.insert(_modules, ${mkLuaModuleConfig mod})";
+  loadModule = mod: "table.insert(_modules, ${mkLuaModuleConfig mod})";
 
   fn = content: ''
       function ()
@@ -63,11 +64,14 @@ in
     foldlevelstart = 99;
     foldenable = true;
     foldmethod = "manual";
+
+    winbar = "%=%r %f %m%=";
   };
 
   withNodeJs = true;
   extraPackages = with pkgs; [
     ocamlPackages.ocamlformat # for coc-ocaml format dependence
+    nixfmt-rfc-style
 
     watchman # for coc watch dependence
   ];
@@ -95,10 +99,9 @@ in
     patch_augroup.clear = true;
   };
 
-
   globals = {
     mapleader = " ";
-    coc_user_config = ./extra/coc-settings.json |> builtins.readFile |> builtins.fromJSON;
+    coc_user_config = import ./coc-settings.nix;
   };
 
   plugins.lazy = {
@@ -115,7 +118,10 @@ in
         }
         {
           pkg = vim-dadbod-ui;
-          dependencies = [ vim-dadbod vim-dadbod-completion ];
+          dependencies = [
+            vim-dadbod
+            vim-dadbod-completion
+          ];
           cmd = [ "DBUI" ];
         }
         {
@@ -131,7 +137,7 @@ in
         }
         {
           pkg = supermaven-nvim;
-          event = ["InsertEnter"];
+          event = [ "InsertEnter" ];
           config = true;
         }
         {
@@ -142,8 +148,17 @@ in
         {
           pkg = nvim-lastplace;
           opts = {
-            lastplace_ignore_buftype = [ "quickfix" "nofile" "help" ];
-            lastplace_ignore_filetype = [ "gitcommit" "gitrebase" "svn" "hgcommit" ];
+            lastplace_ignore_buftype = [
+              "quickfix"
+              "nofile"
+              "help"
+            ];
+            lastplace_ignore_filetype = [
+              "gitcommit"
+              "gitrebase"
+              "svn"
+              "hgcommit"
+            ];
             lastplace_open_folds = true;
           };
           config = true;
@@ -246,16 +261,27 @@ in
                 },
               })
             '';
-          dependencies = [ nvim-treesitter-context nvim-ts-context-commentstring ];
+          dependencies = [
+            nvim-treesitter-context
+            nvim-ts-context-commentstring
+          ];
         }
         {
           pkg = vitesse-nvim;
           enabled = false;
-          config = fn "vim.cmd [[colorscheme vitesse]]";
+          config = fn "vim.cmd.colorscheme 'vitesse'";
         }
         {
           pkg = catppuccin-nvim;
+          enabled = false;
           config = fn "vim.cmd.colorscheme 'catppuccin'";
+        }
+        {
+          pkg = oh-lucy-nvim;
+        }
+        {
+          pkg = rose-pine;
+          config = fn "vim.cmd.colorscheme 'rose-pine-main'";
         }
         {
           pkg = toggleterm-nvim;
@@ -266,18 +292,47 @@ in
           config = true;
         }
 
-      ]) ++ (with plugins; [ vim-smoothie vim-surround fcitx-nvim plenary-nvim ] |> (map (p: { pkg = p; })));
+      ])
+      ++ (
+        with plugins;
+        [
+          vim-smoothie
+          vim-surround
+          fcitx-nvim
+          plenary-nvim
+        ]
+        |> (map (p: {
+          pkg = p;
+        }))
+      );
   };
 
   keymaps =
     let
-      map = mode: key: action: options: { inherit mode key action options; };
-      nmap = k: a: (map [ "n" ] k a { silent = true; nowait = true; });
+      map = mode: key: action: options: {
+        inherit
+          mode
+          key
+          action
+          options
+          ;
+      };
+      nmap =
+        k: a:
+        (map [ "n" ] k a {
+          silent = true;
+          nowait = true;
+        });
       nmapl = k: a: nmap k "<CMD>lua ${a}<CR>";
       nmapc = k: a: nmap k "<CMD>${a}<CR>";
       nmapp = k: a: nmap k "<Plug>(${a})";
 
-      vnmap = k: a: (map [ "v" "n" ] k a { silent = true; nowait = true; });
+      vnmap =
+        k: a:
+        (map [ "v" "n" ] k a {
+          silent = true;
+          nowait = true;
+        });
 
       fzfLuaKeys = [
         (nmapc "<leader>fb" "FzfLua buffers")
@@ -340,6 +395,5 @@ in
     for _, mod in ipairs(_modules) do
       mod()
     end
-    ''
-    ;
+  '';
 }
