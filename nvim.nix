@@ -102,6 +102,7 @@ in
   globals = {
     mapleader = " ";
     coc_user_config = import ./coc-settings.nix;
+    coc_data_home = "~/.config/coc_nvim";
   };
 
   plugins.lazy = {
