@@ -4,23 +4,35 @@
   ...
 }:
 let
-  coc = pkgs.cocPlugins;
+  cocPlugins = pkgs.cocPlugins;
   vimPlugins = pkgs.vimPlugins;
   nvimPlugins = pkgs.nvimPlugins;
-  plugins = vimPlugins // coc // nvimPlugins;
-  mkLuaModuleConfig =
+  plugins = vimPlugins // cocPlugins // nvimPlugins;
+
+  # make config from lua file module
+  mkConf =
     mod:
-    let
-      content = (builtins.readFile (./extra + "/${mod}.lua"));
-    in
-    ''
-      function()
-            ${content}
-          end'';
+    mkFn ''
+      ${builtins.readFile (./extra + "/${mod}.lua")}
+    '';
 
-  loadModule = mod: "table.insert(_modules, ${mkLuaModuleConfig mod})";
+  loadModules = mods: ''
+    do
+      local _modules = {
+        ${builtins.concatStringsSep ",\n" (
+          map (mod: "function () 
+          ${builtins.readFile (./extra + "/${mod}.lua")}
+        end") mods
+        )}
+      }
+      
+      for _, mod in ipairs(_modules) do
+        mod()
+      end
+    end
+  '';
 
-  fn = content: ''
+  mkFn = content: ''
       function ()
     ${content}
       end
@@ -168,7 +180,7 @@ in
         {
           pkg = comment-nvim;
           lazy = true;
-          config = fn ''
+          config = mkFn ''
             require('Comment').setup({
               mappings = {
                 basic = true,
@@ -181,7 +193,7 @@ in
         {
           pkg = nvim-osc52;
           # TODO: add lazy key map
-          config = fn ''
+          config = mkFn ''
             vim.keymap.set('v', 'fy', require('osc52').copy_visual)
           '';
         }
@@ -191,8 +203,8 @@ in
           config = true;
         }
         {
-          pkg = coc.coc-nvim;
-          config = mkLuaModuleConfig "coc";
+          pkg = cocPlugins.coc-nvim;
+          config = mkConf "coc";
           dependencies = [
             coc-git
             coc-pairs
@@ -212,12 +224,12 @@ in
         }
         {
           pkg = nvim-bqf;
-          config = mkLuaModuleConfig "bqf";
+          config = mkConf "bqf";
         }
 
         {
           pkg = codecompanion-nvim;
-          config = mkLuaModuleConfig "codecompanion";
+          config = mkConf "codecompanion";
         }
         {
           pkg = nvim-treesitter;
@@ -248,7 +260,7 @@ in
                 paths = nvim-plugintree.dependencies;
               };
             in
-            fn ''
+            mkFn ''
               vim.opt.runtimepath:append("${nvim-plugintree}")
               vim.opt.runtimepath:append("${treesitter-parsers}")
 
@@ -270,19 +282,19 @@ in
         {
           pkg = vitesse-nvim;
           enabled = false;
-          config = fn "vim.cmd.colorscheme 'vitesse'";
+          config = mkFn "vim.cmd.colorscheme 'vitesse'";
         }
         {
           pkg = catppuccin-nvim;
           enabled = false;
-          config = fn "vim.cmd.colorscheme 'catppuccin'";
+          config = mkFn "vim.cmd.colorscheme 'catppuccin'";
         }
         {
           pkg = oh-lucy-nvim;
         }
         {
           pkg = rose-pine;
-          config = fn "vim.cmd.colorscheme 'rose-pine-main'";
+          config = mkFn "vim.cmd.colorscheme 'rose-pine-main'";
         }
         {
           pkg = toggleterm-nvim;
@@ -381,7 +393,6 @@ in
     keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
 
   extraConfigLua = ''
-    local _modules = {}
     local cache_dir = vim.env.HOME .. '/.cache/nvim/'
     local opt = vim.opt
     opt.directory = cache_dir .. 'swap/'
@@ -390,11 +401,6 @@ in
     opt.viewdir = cache_dir .. 'view/'
     opt.spellfile = cache_dir .. 'spell/en.uft-8.add'
 
-
-    ${loadModule "stsline"}
-
-    for _, mod in ipairs(_modules) do
-      mod()
-    end
+    ${loadModules [ "stsline" ]}
   '';
 }
