@@ -1,9 +1,11 @@
-local cmd, fn, api = vim.cmd, vim.fn, vim.api
+local cmd, fn, api, keymap = vim.cmd, vim.fn, vim.api, vim.keymap
+local cocCommand, autocmd, aug, command =
+	cmd.CocCommand, api.nvim_create_autocmd, api.nvim_create_augroup, api.nvim_create_user_command
 
 api.nvim_set_keymap("i", "<C-Space>", "coc#refresh()", { silent = true, expr = true })
 api.nvim_set_keymap("i", "<S-TAB>", "pumvisible() ? '<C-p>' : '<C-h>'", { noremap = true, expr = true })
 
-vim.keymap.set("i", "<Cr>", function()
+keymap.set("i", "<Cr>", function()
 	if fn["coc#pum#visible"]() == 1 then
 		return fn["coc#pum#confirm"]()
 	else
@@ -13,9 +15,9 @@ end, { silent = true, noremap = true, expr = true })
 
 vim.g.coc_snippet_next = "<tab>"
 
-api.nvim_create_augroup("coc_patch_autocmd", { clear = true })
+aug("coc_patch_autocmd", { clear = true })
 
-api.nvim_create_autocmd({ "ModeChanged" }, {
+autocmd("ModeChanged", {
 	group = "coc_patch_autocmd",
 	pattern = "*",
 	callback = function()
@@ -27,7 +29,7 @@ api.nvim_create_autocmd({ "ModeChanged" }, {
 	once = false,
 })
 
-api.nvim_create_autocmd({ "WinEnter" }, {
+autocmd("WinEnter", {
 	group = "coc_patch_autocmd",
 	pattern = "*",
 	callback = function()
@@ -41,20 +43,20 @@ api.nvim_create_autocmd({ "WinEnter" }, {
 	end,
 })
 
-api.nvim_create_user_command("CocFormat", function()
+command("Format", function()
 	fn.CocActionAsync("format")
 end, {
 	desc = "coc lsp format with async",
 })
 
-api.nvim_create_user_command("GitBlameDoc", function()
-	vim.cmd([[CocCommand git.showBlameDoc]])
+command("GitBlameDoc", function()
+	cocCommand("git.showBlameDoc")
 end, {
 	desc = "open git blame doc",
 })
 
-api.nvim_create_user_command("CocMarketplace", function()
-	vim.cmd([[CocList marketplace]])
+command("Marketplace", function()
+	cmd([[CocList marketplace]])
 end, {
 	desc = "open coc marketplace",
 })
@@ -77,10 +79,10 @@ local function resize_handler(num)
 		end
 
 		explorer_size = explorer_size + 5
-		vim.cmd([[vertical resize ]] .. string.format(num > 0 and "+%d" or "%d", num))
+		cmd([[vertical resize ]] .. string.format(num > 0 and "+%d" or "%d", num))
 	end
 end
-api.nvim_create_autocmd("filetype", {
+autocmd("filetype", {
 	group = "coc_patch_autocmd",
 	pattern = "coc-explorer",
 	callback = function()
@@ -88,20 +90,20 @@ api.nvim_create_autocmd("filetype", {
 		vim.keymap.set("n", "=", resize_handler(5), { buffer = true })
 	end,
 })
-api.nvim_create_autocmd("User", {
+autocmd("User", {
 	group = "coc_patch_autocmd",
 	pattern = "CocStatusChange",
 	callback = function()
-		vim.cmd.redrawstatus()
+		cmd.redrawstatus()
 	end,
 })
-api.nvim_create_user_command("CocExplorer", function()
-	cmd(string.format([[CocCommand explorer --position right --width %d]], explorer_size))
+command("Explorer", function()
+	cmd(string.format("CocCommand explorer --position right --width %d", explorer_size))
 end, {
 	desc = "Open Coc Explorer",
 })
 
-vim.keymap.set("n", "K", function()
+keymap.set("n", "K", function()
 	if fn.CocAction("hasProvider", "hover") then
 		fn.CocActionAsync("definitionHover")
 	else
@@ -109,4 +111,22 @@ vim.keymap.set("n", "K", function()
 	end
 end, { silent = true })
 
-vim.cmd([[]])
+local function set_cwd_to_workspace()
+	local file = fn.expand("%:p")
+	local workspaces = vim.g.WorkspaceFolders or {}
+	local current_cwd = fn.getcwd()
+
+	for _, workspace in ipairs(workspaces) do
+		if string.sub(file, 1, #workspace) == workspace then
+			if current_cwd ~= workspace then
+				api.nvim_set_current_dir(workspace)
+			end
+			return
+		end
+	end
+end
+
+autocmd("BufEnter", {
+	pattern = "*",
+	callback = set_cwd_to_workspace,
+})

@@ -101,7 +101,7 @@ in
 
   globals = {
     mapleader = " ";
-    coc_user_config = import ./coc-settings.nix;
+    coc_user_config = import ./coc-settings.nix { inherit pkgs helpers; };
     coc_data_home = "~/.config/coc_nvim";
   };
 
@@ -349,8 +349,8 @@ in
       ];
 
       cocKeys = [
-        (nmapc "<C-n>" "CocExplorer")
-        (nmapc "<leader>cf" "CocFormat")
+        (nmapc "<C-n>" "Explorer")
+        (nmapc "<leader>cf" "Format")
         (nmapp "<leader>ca" "coc-codeaction-cursor")
         (nmapp "<leader>rn" "coc-rename")
         (nmapp "<leader>j" "coc-diagnostic-next")

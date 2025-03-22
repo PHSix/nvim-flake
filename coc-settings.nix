@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
   coc = {
     preferences = {
@@ -169,7 +170,14 @@
     diagnostics.globals = [ "vim" ];
     hint.enable = false;
     format.enable = false;
+    misc.parameters = [
+      "--metapath"
+      "~/.cache/sumneko_lua/meta"
+      "--logpath"
+      "~/.cache/sumneko_lua/log"
+    ];
   };
+  sumneko-lua.serverDir = "${pkgs.lua-language-server}/share/lua-language-server";
 
   #
   # config for coc-git
