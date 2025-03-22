@@ -1,4 +1,4 @@
-{ vimUtils, fetchFromGitHub, platforms,... }:
+{ vimUtils, fetchFromGitHub, ... }:
 
 vimUtils.buildVimPlugin {
   pname = "vitesse-nvim";
@@ -16,4 +16,3 @@ vimUtils.buildVimPlugin {
 
   meta.homepage = "https://github.com/PHSix/vitesse.nvim";
 }
-

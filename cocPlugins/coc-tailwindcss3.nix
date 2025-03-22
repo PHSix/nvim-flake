@@ -20,4 +20,3 @@ pkgs.vimUtils.buildVimPlugin rec {
     license = licenses.mit;
   };
 }
-

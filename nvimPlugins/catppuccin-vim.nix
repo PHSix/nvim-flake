@@ -11,4 +11,3 @@ vimUtils.buildVimPlugin {
   };
   meta.homepage = "https://github.com/catppuccin/vim";
 }
-

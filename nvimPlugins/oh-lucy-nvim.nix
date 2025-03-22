@@ -12,4 +12,3 @@ vimUtils.buildVimPlugin {
 
   meta.homepage = "https://github.com/yazeed1s/oh-lucy.nvim";
 }
-

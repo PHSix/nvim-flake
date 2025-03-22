@@ -1,4 +1,4 @@
-{pkgs, fetchFromGitHub, ...}: 
+{ pkgs, fetchFromGitHub, ... }:
 pkgs.vimUtils.buildVimPlugin {
   pname = "coc.nvim";
   version = "2025-03-21";
@@ -10,4 +10,3 @@ pkgs.vimUtils.buildVimPlugin {
   };
   meta.homepage = "https://github.com/neoclide/coc.nvim/";
 }
-
