@@ -47,8 +47,7 @@ in
 
     backup = false;
     swapfile = false;
-
-    history = 2000;
+    undofile = true;
 
     ignorecase = true;
     smartcase = true;
@@ -267,7 +266,10 @@ in
               require('nvim-treesitter.configs').setup({
                 parser_install_dir = "${treesitter-parsers}",
                 auto_install = false,
-                indent = {enable = true};
+                indent = { 
+                  enable = true,
+                  disable = { "ocaml" },
+                };
                 highlight = {
                   enable = true,
                   additional_vim_regex_highlighting = false,
@@ -304,11 +306,11 @@ in
           };
           config = true;
         }
-
       ])
       ++ (
         with plugins;
         [
+          vim-ocaml
           vim-smoothie
           vim-surround
           fcitx-nvim
@@ -400,6 +402,7 @@ in
     opt.backupdir = cache_dir .. 'backup/'
     opt.viewdir = cache_dir .. 'view/'
     opt.spellfile = cache_dir .. 'spell/en.uft-8.add'
+    opt.history = 2000
 
     ${loadModules [ "stsline" ]}
   '';

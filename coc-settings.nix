@@ -249,6 +249,13 @@
     "\""
     "`"
   ];
+  "[ocaml]".pairs.enableCharacters = [
+    "("
+    "["
+    "{"
+    "\""
+    "`"
+  ];
 
   #
   # config for coc-tailwindcss3
