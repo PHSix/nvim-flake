@@ -397,6 +397,7 @@ in
     keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
 
   extraConfigLua = ''
+    vim.cmd [[set rtp+=${./.}]]
     local cache_dir = vim.env.HOME .. '/.cache/nvim/'
     local opt = vim.opt
     opt.directory = cache_dir .. 'swap/'
