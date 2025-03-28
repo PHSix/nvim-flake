@@ -85,6 +85,8 @@ in
     nixfmt-rfc-style
 
     watchman # for coc watch dependence
+
+    postgresql
   ];
 
   autoCmd = [
