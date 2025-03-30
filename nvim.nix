@@ -224,6 +224,8 @@ in
             coc-ocaml
             coc-css
             coc-nix
+            coc-json
+            coc-highlight
           ];
         }
         {

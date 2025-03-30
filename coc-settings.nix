@@ -62,7 +62,7 @@
     enableMessage = "jump";
   };
 
-  color.enable = true;
+  colors.enable = true;
 
   # for lsp
   semanticTokens.enable = false;
