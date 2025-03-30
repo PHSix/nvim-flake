@@ -54,7 +54,7 @@
       title = "diagnostic";
       rounded = true;
     };
-    virtualText = true;
+    # virtualText = true;
     errorSign = " ";
     warningSign = " ";
     hintSign = " ";
