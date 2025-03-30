@@ -76,7 +76,7 @@ in
     foldenable = true;
     foldmethod = "manual";
 
-    winbar = "%=%r %f %m%=";
+    # winbar = "%=%r %f %m%=";
   };
 
   withNodeJs = true;
@@ -116,6 +116,9 @@ in
     mapleader = " ";
     coc_user_config = import ./coc-settings.nix { inherit pkgs helpers; };
     coc_data_home = "~/.config/coc_nvim";
+
+    # for leaderf
+    Lf_WindowPosition = "popup";
   };
 
   plugins.lazy = {
@@ -307,6 +310,10 @@ in
             open_mapping = "<c-t>";
           };
           config = true;
+        }
+        {
+          pkg = LeaderF;
+          cmd = "Leaderf";
         }
       ])
       ++ (

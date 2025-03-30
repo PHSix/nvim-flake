@@ -75,7 +75,7 @@ local function setup()
 
 	local file_comp = create_component({
 		fetcher = function()
-			local filename = fn.expand("%:t")
+			local filename = fn.expand("%f")
 			local buf = api.nvim_get_current_buf()
 
 			-- if filename:match('explorer') then
