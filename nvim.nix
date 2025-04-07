@@ -258,6 +258,7 @@ in
                   ocaml
                   zig
                   vue
+                  css
                 ]
               );
 
