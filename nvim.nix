@@ -271,6 +271,9 @@ in
                   zig
                   vue
                   css
+                  html
+                  xml
+                  scss
                 ]
               );
 
