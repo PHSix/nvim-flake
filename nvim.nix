@@ -87,6 +87,14 @@ in
     watchman # for coc watch dependence
 
     postgresql
+
+    gopls
+    sumneko-lua-language-server
+    stylua
+    biome
+    vscode-langservers-extracted
+    nixd
+    nixfmt-rfc-style
   ];
 
   autoCmd = [
@@ -119,6 +127,24 @@ in
 
     # for leaderf
     Lf_WindowPosition = "popup";
+
+    coc_global_extensions = [
+      "coc-git"
+      "coc-pairs"
+      "coc-lists"
+      "coc-snippets"
+      "coc-explorer"
+      "coc-tsserver"
+      "coc-sumneko-lua"
+      "coc-stylua"
+      "coc-biome"
+      "coc-css"
+      "coc-json"
+      "coc-highlight"
+      "@ph_chen/coc-nix"
+      "@ph_chen/coc-ocaml"
+    ];
+
   };
 
   plugins.lazy = {
@@ -210,22 +236,8 @@ in
           pkg = cocPlugins.coc-nvim;
           config = mkConf "coc";
           dependencies = [
-            coc-git
-            coc-pairs
-            coc-lists
-            coc-snippets
-            coc-explorer
             coc-eslint-tools
-            coc-tsserver
-            coc-sumneko-lua
-            coc-stylua
-            coc-rust-analyzer
-            coc-biome
-            coc-ocaml
-            coc-css
-            coc-nix
-            coc-json
-            coc-highlight
+            # coc-rust-analyzer
           ];
         }
         {
