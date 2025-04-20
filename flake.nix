@@ -31,7 +31,15 @@
           ];
         };
         nvimProfile = import ./nvim.nix;
+        minimalProfile = import ./minimal.nix;
         nixvim' = inputs.nixvim.legacyPackages.${system};
+        minimal = nixvim'.makeNixvimWithModule {
+          inherit pkgs;
+          module = minimalProfile;
+          extraSpecialArgs = {
+            inherit inputs;
+          };
+        };
         nvim = nixvim'.makeNixvimWithModule {
           inherit pkgs;
           module = nvimProfile;
@@ -42,11 +50,10 @@
       in
       {
         packages = {
-          default = nvim;
-          nvim = nvim;
           neovim = nvim;
           cocPlugins = pkgs.cocPlugins;
           nvimPlugins = pkgs.nvimPlugins;
+          minimal = minimal;
         };
       }
     );

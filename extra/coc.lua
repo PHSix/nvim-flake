@@ -29,6 +29,8 @@ autocmd("ModeChanged", {
 	once = false,
 })
 
+
+
 autocmd("WinEnter", {
 	group = "coc_patch_autocmd",
 	pattern = "*",

@@ -4,10 +4,9 @@
   ...
 }:
 let
-  cocPlugins = pkgs.cocPlugins;
   vimPlugins = pkgs.vimPlugins;
   nvimPlugins = pkgs.nvimPlugins;
-  plugins = vimPlugins // cocPlugins // nvimPlugins;
+  plugins = vimPlugins // nvimPlugins;
 
   # make config from lua file module
   mkConf =
@@ -111,7 +110,6 @@ in
       pattern = [
         "help"
         "dashboard"
-        "coctree"
       ];
     }
   ];
@@ -122,28 +120,9 @@ in
 
   globals = {
     mapleader = " ";
-    coc_user_config = import ./coc-settings.nix { inherit pkgs helpers; };
-    coc_data_home = "~/.config/coc_nvim";
 
     # for leaderf
     Lf_WindowPosition = "popup";
-
-    coc_global_extensions = [
-      "coc-git"
-      "coc-pairs"
-      "coc-lists"
-      "coc-snippets"
-      "coc-explorer"
-      "coc-tsserver"
-      "coc-sumneko-lua"
-      "coc-stylua"
-      "coc-biome"
-      "coc-css"
-      "coc-json"
-      "coc-highlight"
-      "@ph_chen/coc-nix"
-      "@ph_chen/coc-ocaml"
-    ];
 
   };
 
@@ -177,11 +156,6 @@ in
             };
           };
           cmd = "FzfLua";
-        }
-        {
-          pkg = supermaven-nvim;
-          event = [ "InsertEnter" ];
-          config = true;
         }
         {
           pkg = hlsearch-nvim;
@@ -222,7 +196,6 @@ in
         }
         {
           pkg = nvim-osc52;
-          # TODO: add lazy key map
           config = mkFn ''
             vim.keymap.set('v', 'fy', require('osc52').copy_visual)
           '';
@@ -233,21 +206,8 @@ in
           config = true;
         }
         {
-          pkg = cocPlugins.coc-nvim;
-          config = mkConf "coc";
-          dependencies = [
-            coc-eslint-tools
-            # coc-rust-analyzer
-          ];
-        }
-        {
           pkg = nvim-bqf;
           config = mkConf "bqf";
-        }
-
-        {
-          pkg = codecompanion-nvim;
-          config = mkConf "codecompanion";
         }
         {
           pkg = nvim-treesitter;
@@ -368,7 +328,6 @@ in
         });
       nmapl = k: a: nmap k "<CMD>lua ${a}<CR>";
       nmapc = k: a: nmap k "<CMD>${a}<CR>";
-      nmapp = k: a: nmap k "<Plug>(${a})";
 
       vnmap =
         k: a:
@@ -390,25 +349,6 @@ in
         (nmapl "zM" "require('ufo').closeAllFolds")
       ];
 
-      cocKeys = [
-        (nmapc "<C-n>" "Explorer")
-        (nmapc "<leader>cf" "Format")
-        (nmapp "<leader>ca" "coc-codeaction-cursor")
-        (nmapp "<leader>rn" "coc-rename")
-        (nmapp "<leader>j" "coc-diagnostic-next")
-        (nmapp "<leader>k" "coc-diagnostic-prev")
-        (nmapp "gd" "coc-definition")
-        (nmapp "gr" "coc-references")
-        (nmapp "gy" "coc-type-definition")
-        (nmapp "gi" "coc-implementation")
-        (nmapc "<leader>fs" "CocList symbols")
-        (nmapp "gk" "coc-git-prevchunk")
-        (nmapp "gj" "coc-git-nextchunk")
-        (nmapp "<leader>gp" "coc-git-chunkinfo")
-
-        (nmapc "<leader>gb" "GitBlameDoc")
-      ];
-
       keys = [
         (map [ "v" "n" ] ";" ":" { })
         (nmapc "<leader>bd" "bd")
@@ -420,7 +360,7 @@ in
         (nmapc "<leader>lg" "LazyGit")
       ];
     in
-    keys ++ fzfLuaKeys ++ ufoKeys ++ cocKeys;
+    keys ++ fzfLuaKeys ++ ufoKeys;
 
   extraConfigLua = ''
     vim.cmd [[set rtp+=${./.}]]
