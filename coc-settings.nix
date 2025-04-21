@@ -180,6 +180,11 @@
   sumneko-lua.serverDir = "${pkgs.lua-language-server}/share/lua-language-server";
 
   #
+  # config for coc-stylua
+  #
+  stylua.styluaPath = "${pkgs.stylua}/bin/stylua";
+
+  #
   # config for coc-git
   #
 

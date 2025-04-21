@@ -181,6 +181,11 @@ in
         {
           pkg = supermaven-nvim;
           event = [ "InsertEnter" ];
+          options = {
+            keymaps = {
+              accept_suggestion = "<C-f>";
+            };
+          };
           config = true;
         }
         {
