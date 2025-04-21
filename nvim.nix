@@ -181,7 +181,7 @@ in
         {
           pkg = supermaven-nvim;
           event = [ "InsertEnter" ];
-          options = {
+          opts = {
             keymaps = {
               accept_suggestion = "<C-f>";
             };
