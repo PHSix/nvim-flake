@@ -125,9 +125,6 @@ in
     coc_user_config = import ./coc-settings.nix { inherit pkgs helpers; };
     coc_data_home = "~/.config/coc_nvim";
 
-    # for leaderf
-    Lf_WindowPosition = "popup";
-
     coc_global_extensions = [
       "coc-git"
       "coc-pairs"
@@ -170,12 +167,15 @@ in
         {
           pkg = fzf-lua;
           lazy = true;
-          opts = {
-            winopts = {
-              height = 0.65;
-              row = 0.7;
-            };
-          };
+          config = mkFn ''
+            require('fzf-lua').setup({
+              winopts = {
+                preview = {
+                  layout = vim.o.lines * 2 > vim.o.columns and 'vertical' or 'horizontal',
+                },
+              },
+            })
+          '';
           cmd = "FzfLua";
         }
         {
@@ -325,7 +325,7 @@ in
         }
         {
           pkg = rose-pine;
-          config = mkFn "vim.cmd.colorscheme 'rose-pine-main'";
+          config = mkFn "vim.cmd.colorscheme 'rose-pine-moon'";
         }
         {
           pkg = toggleterm-nvim;
@@ -334,10 +334,6 @@ in
             open_mapping = "<c-t>";
           };
           config = true;
-        }
-        {
-          pkg = LeaderF;
-          cmd = "Leaderf";
         }
       ])
       ++ (

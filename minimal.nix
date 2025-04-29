@@ -120,10 +120,6 @@ in
 
   globals = {
     mapleader = " ";
-
-    # for leaderf
-    Lf_WindowPosition = "popup";
-
   };
 
   plugins.lazy = {
@@ -149,12 +145,15 @@ in
         {
           pkg = fzf-lua;
           lazy = true;
-          opts = {
-            winopts = {
-              height = 0.65;
-              row = 0.7;
-            };
-          };
+          config = mkFn ''
+            require('fzf-lua').setup({
+              winopts = {
+                preview = {
+                  layout = vim.o.lines * 2 > vim.o.columns and 'vertical' or 'horizontal',
+                },
+              },
+            })
+          '';
           cmd = "FzfLua";
         }
         {
@@ -289,10 +288,6 @@ in
             open_mapping = "<c-t>";
           };
           config = true;
-        }
-        {
-          pkg = LeaderF;
-          cmd = "Leaderf";
         }
       ])
       ++ (
