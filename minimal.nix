@@ -30,7 +30,9 @@ in
 
   withNodeJs = true;
 
-  extraPackages = misc.extraPackages;
+  extraPackages = with pkgs; [
+    ripgrep
+  ];
 
   autoCmd = misc.autoCmd;
 
