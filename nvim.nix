@@ -195,7 +195,7 @@ in
 
       keys = [
         (map [ "v" "n" ] ";" ":" { })
-        (nmapc "<leader>bd" "bd")
+        (nmapc "<leader>bd" "Bdelete")
         (vnmap "<C-j>" "3j")
         (vnmap "<C-k>" "3k")
         (vnmap "<C-h>" "4h")
