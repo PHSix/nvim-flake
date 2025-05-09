@@ -289,4 +289,9 @@
   # config for coc-go
   #
   go.checkForUpdates = "disabled";
+
+  #
+  # config for coc-biome
+  #
+  biome.bin = pkgs.biome;
 }
