@@ -239,7 +239,7 @@
   # config for coc-prettier
   #
   prettier = {
-    enable = true;
+    enable = false;
     requireConfig = true;
   };
 

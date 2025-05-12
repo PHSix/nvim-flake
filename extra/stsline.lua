@@ -1,5 +1,20 @@
 local fn, api = vim.fn, vim.api
 
+---@param origin string
+---@param prefix string
+---@return string
+local function replace_starts_with(origin, prefix)
+	-- Check if the origin string is long enough to possibly start with the new_start_string
+	-- and if it actually starts with it.
+	if #prefix > #origin and origin:sub(1, #prefix) == prefix and origin[#prefix + 1] == "/" then
+		-- If it already starts with the new_start_string, return the original string
+		return origin:sub(#prefix + 1)
+	end
+
+	-- If it doesn't start with the new_start_string, prepend it
+	return origin
+end
+
 local function tbl_get(t, k, d)
 	local v = vim.tbl_get(t, k)
 	if v == nil and d then
@@ -75,12 +90,12 @@ local function setup()
 
 	local file_comp = create_component({
 		fetcher = function()
-			local filename = fn.expand("%f")
+			local full_filename = fn.expand("%f")
 			local buf = api.nvim_get_current_buf()
 
-			-- if filename:match('explorer') then
-			--   notify(string.format('filename: %s, buffer: %d', filename, buf), log_levels.TRACE)
-			-- end
+			local cwd = vim.uv.cwd()
+
+			local filename = replace_starts_with(full_filename, cwd)
 
 			if vim.bo[buf].modified and vim.bo[buf].modifiable then
 				return string.format("%s  ", filename)

@@ -128,5 +128,6 @@ end
 
 autocmd("BufEnter", {
 	pattern = "*",
+	group = "coc_patch_autocmd",
 	callback = set_cwd_to_workspace,
 })
