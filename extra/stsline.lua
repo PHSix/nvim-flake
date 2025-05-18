@@ -4,11 +4,17 @@ local fn, api = vim.fn, vim.api
 ---@param prefix string
 ---@return string
 local function replace_starts_with(origin, prefix)
-	-- Check if the origin string is long enough to possibly start with the new_start_string
+	-- Check if the origin string is long enough to possibly start with the prefix string
 	-- and if it actually starts with it.
-	if #prefix > #origin and origin:sub(1, #prefix) == prefix and origin[#prefix + 1] == "/" then
+	if #prefix < #origin and origin:sub(1, #prefix) == prefix then
 		-- If it already starts with the new_start_string, return the original string
-		return origin:sub(#prefix + 1)
+		local start_index = #prefix + 1
+
+		if origin[start_index] == "/" then
+			start_index = start_index + 1
+		end
+
+		return origin:sub(start_index)
 	end
 
 	-- If it doesn't start with the new_start_string, prepend it
