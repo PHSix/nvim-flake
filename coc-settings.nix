@@ -293,5 +293,6 @@
   #
   # config for coc-biome
   #
-  biome.bin = pkgs.biome;
+  biome.enable = false;
+  biome.bin = "${pkgs.biome}/bin/biome";
 }
